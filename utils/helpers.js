@@ -1,22 +1,28 @@
 const { Builder, By } = require("selenium-webdriver");
 const fs = require("fs").promises;
+const { infoForHelpers } =
+  // const qaLocator = (locator) => {
+  //   return By.css(`[data-qa=${locator}]`);
+  // };
 
-// const qaLocator = (locator) => {
-//   return By.css(`[data-qa=${locator}]`);
-// };
+  // const waitForUrl = async (url, text, timeout = 5000) => {
+  //   await driver.wait(async () => {
+  //     return (await driver.getCurrentUrl()) === url + text;
+  //   }, timeout);
+  // };
 
-// const waitForUrl = async (url, text, timeout = 5000) => {
-//   await driver.wait(async () => {
-//     return (await driver.getCurrentUrl()) === url + text;
-//   }, timeout);
-// };
+  // async function takeScreenshot(fileName = "failedTest") {
+  //   const driver = await new Builder().forBrowser("chrome").build();
 
-// async function takeScreenshot(fileName = "failedTest") {
-//   const driver = await new Builder().forBrowser("chrome").build();
+  //   const image = await driver.takeScreenshot();
+  //   await fs.writeFileSync(`${fileName}.png`, image, "base64");
+  // }
 
-//   const image = await driver.takeScreenshot();
-//   await fs.writeFileSync(`${fileName}.png`, image, "base64");
-// }
+  async function closeSityСonfirmPopup(popup, closebutton) {
+    if (await driver.findElement(popup).isDisplayed()) {
+      await driver.findElement(closebutton).click();
+    }
+  };
 
 async function sendKeysToTheElement(locator, keys) {
   await driver.findElement(locator).sendKeys(keys);

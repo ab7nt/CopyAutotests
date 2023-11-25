@@ -2,6 +2,7 @@ const { By, until } = require("selenium-webdriver");
 const { expect } = require("chai");
 const { waitForUrl, qaLocator } = require("../utils/helpers");
 const { mainPage } = require("../pages/main-page");
+const { infoForHelpers } = require("../pages/info/info-for-helpers");
 
 const { infoForChangeRegion } = require("../pages/info/info-for-change-region");
 
@@ -71,22 +72,25 @@ describe.only("Проверка смены региона", async function () {
     );
 
     // закрытие поп-апа подтверждения автоопределённого города, если оно открыто
-    async function closeSityСonfirmPopup() {
-      if (
-        await driver
-          .findElement(By.css("div.popup.popup--current-city.popup--active"))
-          .isDisplayed()
-      ) {
-        await driver
-          .findElement(
-            By.css(
-              "div.popup.popup--current-city.popup--active div.popup__close.popup-close"
-            )
-          )
-          .click();
-      }
-    }
-    await closeSityСonfirmPopup();
+    // async function closeSityСonfirmPopup() {
+    //   if (
+    //     await driver
+    //       .findElement(By.css("div.popup.popup--current-city.popup--active"))
+    //       .isDisplayed()
+    //   ) {
+    //     await driver
+    //       .findElement(
+    //         By.css(
+    //           "div.popup.popup--current-city.popup--active div.popup__close.popup-close"
+    //         )
+    //       )
+    //       .click();
+    //   }
+    // }
+    await closeSityСonfirmPopup(
+      infoForHelpers.popup,
+      infoForHelpers.popupCloseButton
+    );
 
     /// нажатие на кнопку с названием города в футере
     // await driver.executeScript("arguments[0].click();", inFooterRegionButton);

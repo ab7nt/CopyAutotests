@@ -1,9 +1,7 @@
 const { By } = require("selenium-webdriver");
-
 const returnByCssLocator = function (locator) {
   return By.css(locator);
 };
-
 const { infoForChangeRegion } = require("../pages/info/info-for-change-region");
 
 const mainPage = {
@@ -13,7 +11,7 @@ const mainPage = {
     "div.header-top .popup-open[data-popup=town]"
   ),
   cityButton: returnByCssLocator(
-    `button[data-region='${infoForChangeRegion.cityName}']`
+    `button[data-region-id='${infoForChangeRegion.cityButtonId}']`
   ),
   mapTitleCity: returnByCssLocator("section.map h1 span"),
   phoneOnHeader: returnByCssLocator(
