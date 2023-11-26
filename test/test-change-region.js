@@ -1,9 +1,13 @@
-const { By, until } = require("selenium-webdriver");
+const { By, until, Key } = require("selenium-webdriver");
 const { expect } = require("chai");
-const { waitForUrl, qaLocator } = require("../utils/helpers");
+const {
+  waitForUrl,
+  qaLocator,
+  closeSityСonfirmPopup,
+} = require("../utils/helpers");
 const { mainPage } = require("../pages/main-page");
+const { contactPage } = require("../pages/contact-page");
 const { infoForHelpers } = require("../pages/info/info-for-helpers");
-
 const { infoForChangeRegion } = require("../pages/info/info-for-change-region");
 
 describe.only("Проверка смены региона", async function () {
@@ -72,64 +76,60 @@ describe.only("Проверка смены региона", async function () {
     );
 
     // закрытие поп-апа подтверждения автоопределённого города, если оно открыто
-    // async function closeSityСonfirmPopup() {
-    //   if (
-    //     await driver
-    //       .findElement(By.css("div.popup.popup--current-city.popup--active"))
-    //       .isDisplayed()
-    //   ) {
-    //     await driver
-    //       .findElement(
-    //         By.css(
-    //           "div.popup.popup--current-city.popup--active div.popup__close.popup-close"
-    //         )
-    //       )
-    //       .click();
-    //   }
-    // }
-    await closeSityСonfirmPopup(
-      infoForHelpers.popup,
-      infoForHelpers.popupCloseButton
-    );
+    if (
+      await driver
+        .findElement(By.css("div.popup.popup--current-city.popup--active"))
+        .isDisplayed()
+    ) {
+      await driver
+        .findElement(
+          By.css("div.popup.popup--current-city.popup--active div.popup__close")
+        )
+        .click();
+    }
 
     /// нажатие на кнопку с названием города в футере
-    // await driver.executeScript("arguments[0].click();", inFooterRegionButton);
     await driver.executeScript(
       "arguments[0].scrollIntoView()",
       await driver.findElement(mainPage.inFooterRegionButton)
     );
     await driver.sleep(1000);
+
     await driver.findElement(mainPage.inFooterRegionButton).click();
 
-    // проверка отображения поп-апа выбора города
-    expect(
-      await await driver.findElement(mainPage.citySelectPopup).isDisplayed()
-    ).to.be.true;
+    // ожидание отображение поп-апа с выбором города
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(mainPage.citySelectPopup),
+        5000
+      )
+    );
 
     // скрытие поп-апа выбора города
-    await driver.findElement(By.css("div.popup-wrapper--active")).click();
+    if (driver.findElement(mainPage.citySelectPopup).isDisplayed()) {
+      await driver.actions().keyDown(Key.ESCAPE).perform();
+    }
 
     // нажатие на кнопку "Адреса копицентров" в футере
-    // await driver.executeScript("arguments[0].click();", inFooterAdressButton);
     await driver.findElement(mainPage.inFooterAdressButton).click();
 
-    // проверка, что в заголовке страницы "Контакты" содержится название выбранного города в родительном падеже
-    // const contactPageTitleText = await driver
-    //   .findElement(
-    //     By.css(
-    //       "div.copycenter-list-header h1.copycenter-list-header__title.copycenters__title"
-    //     )
-    //   )
-    //   .getText();
+    // ожидание перехода на страницу "Контакты"
+    await waitForUrl(contactPage.pageURL);
 
-    expect(
-      await driver
-        .findElement(
-          By.css(
-            "div.copycenter-list-header h1.copycenter-list-header__title.copycenters__title"
-          )
-        )
-        .getText()
-    ).contain(infoForChangeRegion.alternativeSityName);
+    // ожидание, пока в заголовке страинцы 'Контакты' отобразится название выбранного города в родительном падеже
+    await driver.wait(
+      until.elementTextContains(
+        await driver.findElement(contactPage.titleH1),
+        infoForChangeRegion.alternativeCityName
+      ),
+      5000,
+      "Текст в заголовке страницы 'Контакты' не содержит название выбранного города"
+    );
+
+    // проверка, что в заголовке страницы "Контакты" содержится название выбранного города в родительном падеже
+    expect(await driver.findElement(contactPage.titleH1Link).getText()).contain(
+      infoForChangeRegion.alternativeCityName,
+      "В заголовке страницы 'Контакты' название города не совпадает с выбранным ранее"
+    );
   });
 });
