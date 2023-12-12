@@ -4,10 +4,11 @@ const returnByCssLocator = function (locator) {
   return By.css(locator);
 };
 const textForSearch = "qrqwrqrqwr";
+const domen = require("../pages/info/domen");
 
 const notfoundPage = {
   textForSearch: textForSearch,
-  pageURL: `https://dev.copy.ru/?s=${textForSearch}`,
+  pageURL: `${domen}/?s=${textForSearch}`,
   callbackButton: returnByCssLocator("section.result-found button.popup-open"),
   callbackForm: returnByCssLocator("div.popup--callback form"),
   callbackFormActive: returnByCssLocator("div.popup--callback.popup--active"),

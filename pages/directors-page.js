@@ -3,9 +3,10 @@ const { By } = require("selenium-webdriver");
 const returnByCssLocator = function (locator) {
   return By.css(locator);
 };
+const domen = require("../pages/info/domen");
 
 const directorsPage = {
-  pageURL: "https://dev.copy.ru/director/",
+  pageURL: `${domen}/director/`,
   directorsForm: returnByCssLocator("section.appeal form"),
 };
 

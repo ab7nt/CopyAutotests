@@ -3,9 +3,10 @@ const returnByCssLocator = function (locator) {
   return By.css(locator);
 };
 const { infoForChangeRegion } = require("../pages/info/info-for-change-region");
+const domen = require("../pages/info/domen");
 
 const mainPage = {
-  pageURL: "https://dev.copy.ru/",
+  pageURL: domen,
   citySelectPopup: returnByCssLocator("div.popup.popup--town.popup--active"),
   inHeaderRegionButton: returnByCssLocator(
     "div.header-top .popup-open[data-popup=town]"

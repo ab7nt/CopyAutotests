@@ -9,7 +9,7 @@ const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
 describe.only("Проверка формы 'Обратный звонок'", async function () {
-  it("1. Отправка формы с незаполненными полями", async function () {
+  it.only("1. Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
 
@@ -161,7 +161,7 @@ describe.only("Проверка формы 'Обратный звонок'", asy
       'У поля "Номер телефона" есть красная обводка'
     );
   });
-  it.only("4. Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
+  it("4. Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
 
