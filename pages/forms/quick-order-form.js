@@ -5,6 +5,10 @@ const returnByCssLocator = function (locator) {
 };
 
 const quickOrderForm = {
+  quickOrderFormActive: returnByCssLocator(
+    "div.popup--fast-order.popup--active"
+  ),
+  quickOrderForm: returnByCssLocator("div.popup--fast-order form"),
   submitButton: returnByCssLocator(
     "div.popup--fast-order form button[type=submit]"
   ),

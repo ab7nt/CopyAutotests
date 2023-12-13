@@ -3,6 +3,7 @@ const { By } = require("selenium-webdriver");
 const returnByCssLocator = function (locator) {
   return By.css(locator);
 };
+const domen = require("../pages/info/domen");
 
 const quickOrderPage = {
   pageURL: "https://dev.copy.ru/",

@@ -10,13 +10,6 @@ async function waitForUrl(url, timeout = 5000) {
   }, timeout);
 }
 
-// async function takeScreenshot(fileName = "failedTest") {
-//   const driver = await new Builder().forBrowser("chrome").build();
-
-//   const image = await driver.takeScreenshot();
-//   await fs.writeFileSync(`${fileName}.png`, image, "base64");
-// }
-
 async function closeSityСonfirmPopup(popup, closebutton) {
   if (await driver.findElement(popup).isDisplayed()) {
     await driver.findElement(closebutton).click();

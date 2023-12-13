@@ -8,6 +8,9 @@ const domen = require("../pages/info/domen");
 const mainPage = {
   pageURL: domen,
   citySelectPopup: returnByCssLocator("div.popup.popup--town.popup--active"),
+  quickOrderButton: returnByCssLocator(
+    "header.header--pc button[data-popup=fast-order]"
+  ),
   inHeaderRegionButton: returnByCssLocator(
     "div.header-top .popup-open[data-popup=town]"
   ),

@@ -6,17 +6,17 @@ const {
   sendKeysToTheElement,
 } = require("../utils/helpers");
 const { quickOrderForm } = require("../pages/forms/quick-order-form");
-const { quickOrderPage } = require("../pages/quick-order-page");
+const { mainPage } = require("../pages/main-page");
 
-describe("Проверка формы 'Быстрый заказ'", async function () {
+describe.only("Проверка формы 'Быстрый заказ'", async function () {
   it("1. Отправка формы с незаполненными полями", async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -46,7 +46,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -65,12 +65,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it('2. Отправка формы с корректно заполненным полем "Имя"', async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -104,7 +104,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -124,12 +124,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it('3. Отправка формы с корректно заполненным полем "Номер телефона"', async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -172,7 +172,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -186,12 +186,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it('4. Отправка формы с корректно заполненным полем "Электронная почта"', async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -234,7 +234,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -248,12 +248,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it('5. Отправка формы с корректно заполненными полями "Имя" и "Номер телефона"', async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -299,7 +299,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -317,12 +317,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it('6. Отправка формы с корректно заполненными полями "Имя" и "Электронная почта"', async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -368,7 +368,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -386,12 +386,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it('7. Отправка формы с корректно заполненными полеми "Телефон" и "Электронная почта"', async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -437,7 +437,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
@@ -458,12 +458,12 @@ describe("Проверка формы 'Быстрый заказ'", async functi
   });
   it("8. Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -511,7 +511,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("sent", "Обводка у сообщения не зелёная");
 
@@ -534,14 +534,14 @@ describe("Проверка формы 'Быстрый заказ'", async functi
       'У поля "Электронная почта"" есть красная обводка'
     );
   });
-  it("9. Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
+  it.only("9. Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
     // открытие страницы
-    await driver.get(quickOrderPage.pageURL);
+    await driver.get(mainPage.pageURL);
 
     // нажатие на кнопку "Быстрый заказ" и ожидание отображения формы "Быстрый заказ"
-    await driver.findElement(quickOrderPage.quickOrderButton).click();
+    await driver.findElement(mainPage.quickOrderButton).click();
     await driver.wait(
-      until.elementLocated(quickOrderPage.quickOrderFormActive),
+      until.elementLocated(quickOrderForm.quickOrderFormActive),
       5000,
       "Форма Быстрый заказ не отобразилась"
     );
@@ -608,7 +608,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
     expect(
       await driver
-        .findElement(quickOrderPage.quickOrderForm)
+        .findElement(quickOrderForm.quickOrderForm)
         .getAttribute("class")
     ).to.include("sent", "Обводка у сообщения не зелёная");
 

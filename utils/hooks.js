@@ -1,6 +1,8 @@
 const { Builder } = require("selenium-webdriver");
 const { takeScreenshot } = require("./helpers");
 const fs = require("fs");
+const sendStatusInTestRail = require("d:/Autotests/Sites/test-rail/sendStatus");
+const { log } = require("console");
 
 exports.mochaHooks = {
   beforeEach: async function () {
@@ -12,18 +14,31 @@ exports.mochaHooks = {
     await driver.manage().setTimeouts({ implicit: 10000 });
   },
   afterEach: async function () {
-    // снятие скриншота при упавшем тесте
-    if (this.currentTest.state == "failed") {
-      await driver.takeScreenshot().then(function (image) {
-        fs.writeFile(`failed.png`, image, "base64", function (err) {
-          console.log(err);
-        });
-      });
+    const testTitle = this.currentTest.title;
+
+    // при успехе отправка статуса в TestRail
+    if (this.currentTest.state == "passed") {
+      await sendStatusInTestRail(
+        1,
+        Number(this.currentTest.title.split(" ").shift())
+      );
     }
 
-    // if (this.currentTest.state == "failed") {
-    //   takeScreenshot(this.currentTest.title);
-    // }
+    // при упавшем тесте отправка статуса в TestRail и снятие скриншота
+    if (this.currentTest.state == "failed") {
+      await sendStatusInTestRail(5, Number(testTitle.split(" ").shift()));
+
+      await driver.takeScreenshot().then(function (image) {
+        fs.writeFile(
+          `failed_test ${testTitle}.png`,
+          image,
+          "base64",
+          function (err) {
+            console.log(err);
+          }
+        );
+      });
+    }
 
     // закрытие браузера
     await driver.quit();
