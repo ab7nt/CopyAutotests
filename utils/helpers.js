@@ -4,6 +4,12 @@ const fs = require("fs").promises;
 //   return By.css(`[data-qa=${locator}]`);
 // };
 
+function setEnvironmentAndDomen(environment, domen) {
+  return environment !== ""
+    ? `https://${environment}.${domen}.ru`
+    : `https://${domen}.ru/`;
+}
+
 async function waitForUrl(url, timeout = 5000) {
   await driver.wait(async () => {
     return (await driver.getCurrentUrl()) === url;
@@ -43,4 +49,5 @@ module.exports = {
   sendKeysToTheElement,
   getFormattedPhoneNumber,
   closeSityСonfirmPopup,
+  setEnvironmentAndDomen,
 };

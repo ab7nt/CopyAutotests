@@ -13,15 +13,13 @@ exports.mochaHooks = {
     // установка ожидания
     await driver.manage().setTimeouts({ implicit: 10000 });
   },
+
   afterEach: async function () {
     const testTitle = this.currentTest.title;
 
-    // при успехе отправка статуса в TestRail
+    // при успехе отправка статуса в TestRai, если ID тестрана не равен 0
     if (this.currentTest.state == "passed") {
-      await sendStatusInTestRail(
-        1,
-        Number(this.currentTest.title.split(" ").shift())
-      );
+      await sendStatusInTestRail(1, Number(testTitle.split(" ").shift()));
     }
 
     // при упавшем тесте отправка статуса в TestRail и снятие скриншота

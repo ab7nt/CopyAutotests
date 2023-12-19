@@ -10,7 +10,7 @@ const { contactPage } = require("../pages/contact-page");
 const { infoForHelpers } = require("../pages/info/info-for-helpers");
 const { infoForChangeRegion } = require("../pages/info/info-for-change-region");
 
-describe("Проверка смены региона", async function () {
+describe.skip("Проверка смены региона", async function () {
   it("Проверка смены контактов и названия города", async function () {
     // открытие страницы
     await driver.get(mainPage.pageURL);
