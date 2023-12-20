@@ -6,7 +6,7 @@ const returnByCssLocator = function (locator) {
 
 const vacancyForm = {
   submitButton: returnByCssLocator(
-    "div.popup.popup--job form.init button[type=submit]"
+    "div.popup.popup--job form button[type=submit]"
   ),
   validationMessage: returnByCssLocator(
     "div.popup.popup--job form div.wpcf7-response-output"

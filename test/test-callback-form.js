@@ -8,7 +8,7 @@ const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
-describe.only("Проверка формы 'Обратный звонок'", async function () {
+describe("Проверка формы 'Обратный звонок'", async function () {
   it("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
