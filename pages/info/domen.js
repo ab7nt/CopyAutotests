@@ -1,6 +1,6 @@
 const { setEnvironmentAndDomen } = require("../../utils/helpers");
 
-const domen = setEnvironmentAndDomen("dev", "copy");
+const domen = setEnvironmentAndDomen("release", "copy");
 
 console.log(domen);
 

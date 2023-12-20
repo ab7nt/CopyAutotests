@@ -8,8 +8,8 @@ const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
-describe.only("Проверка формы 'Обратный звонок'", async function () {
-  it.only("50594 Отправка формы с незаполненными полями", async function () {
+describe("Проверка формы 'Обратный звонок'", async function () {
+  it("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
 
@@ -52,7 +52,7 @@ describe.only("Проверка формы 'Обратный звонок'", asy
       await driver.findElement(callbackForm.inputPhone).getAttribute("class")
     ).to.include("not-valid", 'У поля "Электронная почта" нет красной обводки');
   });
-  it('50595 Отправка формы с корректно заполненным полем "Имя"', async function () {
+  it('50595 Обратный звонок - Отправка формы с корректно заполненным полем "Имя"', async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
 
@@ -105,7 +105,7 @@ describe.only("Проверка формы 'Обратный звонок'", asy
       await driver.findElement(callbackForm.inputName).getAttribute("class")
     ).to.not.include("not-valid", 'У поля "Имя" есть красная обводка');
   });
-  it('50596 Отправка формы с корректно заполненным полем "Номер телефона"', async function () {
+  it('50596 Обратный звонок - Отправка формы с корректно заполненным полем "Номер телефона"', async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
 
@@ -161,7 +161,7 @@ describe.only("Проверка формы 'Обратный звонок'", asy
       'У поля "Номер телефона" есть красная обводка'
     );
   });
-  it("50597 Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
+  it("50597 Обратный звонок - Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
 

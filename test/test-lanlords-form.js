@@ -3,16 +3,18 @@ const { expect } = require("chai");
 const {
   getFormattedPhoneNumber,
   sendKeysToTheElement,
+  hideElementIfVisible,
 } = require("../utils/helpers");
 const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { lanlordsPage } = require("../pages/landlords-page");
 const { lanlordsForm } = require("../pages/forms/lanlords-form");
+const { mainPage } = require("../pages/main-page");
 
-describe("Проверка формы 'Арендодателям'", async function () {
+describe.only("Проверка формы 'Арендодателям'", async function () {
   // из-за некорректной настройки формы, при загрузке страницы, форма сначала удаляет все значения и перезагружается
   // поэтому, первым действием приходится пропускать это процесс
 
-  it("50630 Отправка формы с незаполненными полями", async function () {
+  it("50639 Арендодателям - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -32,6 +34,11 @@ describe("Проверка формы 'Арендодателям'", async funct
       5000,
       "Форма не успела обновиться"
     );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
 
     // скролл к кнопке "Отправить", нажатие на неё и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(lanlordsForm.submitButton).click();
@@ -59,7 +66,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       await driver.findElement(lanlordsForm.inputEmail).getAttribute("class")
     ).to.include("not-valid", 'У поля "Номер телефона" нет красной обводки');
   });
-  it('50631 Отправка формы с корректно заполненным полем "Имя"', async function () {
+  it('50640 Арендодателям - Отправка формы с корректно заполненным полем "Имя"', async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -83,12 +90,20 @@ describe("Проверка формы 'Арендодателям'", async funct
     // ввод текста в поле "Имя"
     await sendKeysToTheElement(lanlordsForm.inputName, infoForInputs.name);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
+    // проверка введённого текста в поле "Имя"
+    expect(
+      await driver.findElement(lanlordsForm.inputName).getAttribute("value")
+    ).to.be.equal(
+      infoForInputs.name,
+      "Значение в поле 'Имя' не совпадает с введённым"
     );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(lanlordsForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -96,14 +111,6 @@ describe("Проверка формы 'Арендодателям'", async funct
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Имя"
-    expect(
-      await driver.findElement(lanlordsForm.inputName).getAttribute("value")
-    ).to.be.equal(
-      infoForInputs.name,
-      "Значение в поле 'Имя' не совпадает с введённым"
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
@@ -125,7 +132,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       await driver.findElement(lanlordsForm.inputName).getAttribute("class")
     ).to.not.include("not-valid", 'У поля "Имя" есть красная обводка');
   });
-  it('50632 Отправка формы с корректно заполненным полем "Номер телефона"', async function () {
+  it('50641 Арендодателям - Отправка формы с корректно заполненным полем "Номер телефона"', async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -150,12 +157,20 @@ describe("Проверка формы 'Арендодателям'", async funct
     await sendKeysToTheElement(lanlordsForm.inputPhone, infoForInputs.phone);
     await driver.sleep(500);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
+    // проверка введённого текста в поле "Номер телефона"
+    expect(
+      await driver.findElement(lanlordsForm.inputPhone).getAttribute("value")
+    ).to.be.equal(
+      getFormattedPhoneNumber(infoForInputs.phone),
+      "Значение в поле 'Номер телефона' не совпадает с введённым"
     );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(lanlordsForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -163,14 +178,6 @@ describe("Проверка формы 'Арендодателям'", async funct
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Номер телефона"
-    expect(
-      await driver.findElement(lanlordsForm.inputPhone).getAttribute("value")
-    ).to.be.equal(
-      getFormattedPhoneNumber(infoForInputs.phone),
-      "Значение в поле 'Номер телефона' не совпадает с введённым"
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -195,7 +202,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       'У поля "Номер телефона" есть красная обводка'
     );
   });
-  it('50633 Отправка формы с корректно заполненным полем "Электронная почта"', async function () {
+  it('50642 Арендодателям - Отправка формы с корректно заполненным полем "Электронная почта"', async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -219,12 +226,17 @@ describe("Проверка формы 'Арендодателям'", async funct
     // ввод текста в поле "Электронная почта"
     await sendKeysToTheElement(lanlordsForm.inputEmail, infoForInputs.email);
 
+    // проверка введённого текста в поле "Электронная почта"
+    expect(
+      await driver.findElement(lanlordsForm.inputEmail).getAttribute("value")
+    ).to.be.equal(infoForInputs.email);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
     await driver.findElement(lanlordsForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -233,11 +245,6 @@ describe("Проверка формы 'Арендодателям'", async funct
         "Сообщение валидации не отобразилось"
       )
     );
-
-    // проверка введённого текста в поле "Электронная почта"
-    expect(
-      await driver.findElement(lanlordsForm.inputEmail).getAttribute("value")
-    ).to.be.equal(infoForInputs.email);
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
     expect(
@@ -261,7 +268,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       'У поля "Электронная почта" есть красная обводка'
     );
   });
-  it('50634 Отправка формы с корректно заполненными полями "Имя" и "Номер телефона"', async function () {
+  it('50643 Арендодателям - Отправка формы с корректно заполненными полями "Имя" и "Номер телефона"', async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -286,21 +293,6 @@ describe("Проверка формы 'Арендодателям'", async funct
     await sendKeysToTheElement(lanlordsForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(lanlordsForm.inputPhone, infoForInputs.phone);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(lanlordsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(lanlordsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поле "Имя" и "Номер телефона"
     expect(
       await driver.findElement(lanlordsForm.inputName).getAttribute("value")
@@ -313,6 +305,21 @@ describe("Проверка формы 'Арендодателям'", async funct
     ).to.be.equal(
       getFormattedPhoneNumber(infoForInputs.phone),
       "Значение в поле 'Номер телефона' не совпадает с введённым"
+    );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(lanlordsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(lanlordsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -337,7 +344,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       'У поля "Номер телефона" есть красная обводка'
     );
   });
-  it('50635 Отправка формы с корректно заполненными полями "Имя" и "Электронная почта"', async function () {
+  it('50644 Арендодателям - Отправка формы с корректно заполненными полями "Имя" и "Электронная почта"', async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -362,21 +369,6 @@ describe("Проверка формы 'Арендодателям'", async funct
     await sendKeysToTheElement(lanlordsForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(lanlordsForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(lanlordsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(lanlordsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поле "Имя" и "Электронная почта"
     expect(
       await driver.findElement(lanlordsForm.inputName).getAttribute("value")
@@ -389,6 +381,21 @@ describe("Проверка формы 'Арендодателям'", async funct
     ).to.be.equal(
       infoForInputs.email,
       "Значение в поле 'Электронная почта' не совпадает с введённым"
+    );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(lanlordsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(lanlordsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -413,7 +420,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       'У поля "Электронная почта"" есть красная обводка'
     );
   });
-  it('50636 Отправка формы с корректно заполненными полеми "Телефон" и "Электронная почта"', async function () {
+  it('50645 Арендодателям - Отправка формы с корректно заполненными полеми "Телефон" и "Электронная почта"', async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -438,21 +445,6 @@ describe("Проверка формы 'Арендодателям'", async funct
     await sendKeysToTheElement(lanlordsForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(lanlordsForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(lanlordsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(lanlordsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поле "Номер телефона" и "Электронная почта"
     expect(
       await driver.findElement(lanlordsForm.inputPhone).getAttribute("value")
@@ -465,6 +457,21 @@ describe("Проверка формы 'Арендодателям'", async funct
     ).to.be.equal(
       infoForInputs.email,
       "Значение в поле 'Электронная почта' не совпадает с введённым"
+    );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(lanlordsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(lanlordsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -492,7 +499,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       'У поля "Электронная почта"" есть красная обводка'
     );
   });
-  it("50637 Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
+  it("50646 Арендодателям - Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -518,26 +525,6 @@ describe("Проверка формы 'Арендодателям'", async funct
     await sendKeysToTheElement(lanlordsForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(lanlordsForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(lanlordsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(lanlordsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
-    console.log(infoForInputs.name);
-    console.log(
-      await driver.findElement(lanlordsForm.inputName).getAttribute("value")
-    );
-
     // проверка введённого текста во все необходимые поля
     expect(
       await driver.findElement(lanlordsForm.inputName).getAttribute("value")
@@ -551,6 +538,21 @@ describe("Проверка формы 'Арендодателям'", async funct
     expect(
       await driver.findElement(lanlordsForm.inputEmail).getAttribute("value")
     ).to.be.equal(infoForInputs.email);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(lanlordsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(lanlordsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
+    );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
     expect(
@@ -576,7 +578,7 @@ describe("Проверка формы 'Арендодателям'", async funct
       'У поля "Электронная почта"" есть красная обводка'
     );
   });
-  it("50638 Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
+  it("50647 Арендодателям - Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
@@ -616,21 +618,6 @@ describe("Проверка формы 'Арендодателям'", async funct
     await driver
       .findElement(lanlordsForm.inputFile)
       .sendKeys(infoForInputs.filePath);
-
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(lanlordsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(lanlordsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(lanlordsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
 
     // проверка введённого текста во все поля
     expect(
@@ -685,6 +672,21 @@ describe("Проверка формы 'Арендодателям'", async funct
         )
         .getAttribute("value")
     ).to.be.equal(infoForInputs.message);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(lanlordsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(lanlordsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
+    );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
     expect(

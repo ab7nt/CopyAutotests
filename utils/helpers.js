@@ -4,6 +4,13 @@ const fs = require("fs").promises;
 //   return By.css(`[data-qa=${locator}]`);
 // };
 
+async function hideElementIfVisible(locator) {
+  await driver.executeScript(
+    "arguments[0].style.display = 'none'",
+    await driver.findElement(locator)
+  );
+}
+
 function setEnvironmentAndDomen(environment, domen) {
   return environment !== ""
     ? `https://${environment}.${domen}.ru`
@@ -50,4 +57,5 @@ module.exports = {
   getFormattedPhoneNumber,
   closeSityСonfirmPopup,
   setEnvironmentAndDomen,
+  hideElementIfVisible,
 };
