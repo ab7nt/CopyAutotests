@@ -8,7 +8,7 @@ const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
-describe("Проверка формы 'Обратный звонок'", async function () {
+describe.only("Проверка формы 'Обратный звонок'", async function () {
   it("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(notfoundPage.pageURL);
@@ -21,14 +21,9 @@ describe("Проверка формы 'Обратный звонок'", async fu
       "Форма Обратный звонок не отобразилась"
     );
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(callbackForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.sleep(1000);
+    await driver.sleep(500);
 
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(callbackForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -64,8 +59,18 @@ describe("Проверка формы 'Обратный звонок'", async fu
       "Форма Обратный звонок не отобразилась"
     );
 
+    await driver.sleep(500);
+
     // ввод текста в поле "Имя"
     await sendKeysToTheElement(callbackForm.inputName, infoForInputs.name);
+
+    // проверка введённого текста в поле "Имя"
+    expect(
+      await driver.findElement(callbackForm.inputName).getAttribute("value")
+    ).to.be.equal(
+      infoForInputs.name,
+      "Значение в поле 'Имя' не совпадает с введённым"
+    );
 
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
     await driver.wait(
@@ -80,14 +85,6 @@ describe("Проверка формы 'Обратный звонок'", async fu
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Имя"
-    expect(
-      await driver.findElement(callbackForm.inputName).getAttribute("value")
-    ).to.be.equal(
-      infoForInputs.name,
-      "Значение в поле 'Имя' не совпадает с введённым"
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
@@ -117,8 +114,18 @@ describe("Проверка формы 'Обратный звонок'", async fu
       "Форма Обратный звонок не отобразилась"
     );
 
+    await driver.sleep(500);
+
     // ввод текста в поле "Номер телефона"
     await sendKeysToTheElement(callbackForm.inputPhone, infoForInputs.phone);
+
+    // проверка введённого текста в поле "Телефон"
+    expect(
+      await driver.findElement(callbackForm.inputPhone).getAttribute("value")
+    ).to.be.equal(
+      getFormattedPhoneNumber(infoForInputs.phone),
+      "Значение в поле 'Номере телефона' не совпадает с введённым"
+    );
 
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
     await driver.wait(
@@ -133,14 +140,6 @@ describe("Проверка формы 'Обратный звонок'", async fu
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Телефон"
-    expect(
-      await driver.findElement(callbackForm.inputPhone).getAttribute("value")
-    ).to.be.equal(
-      getFormattedPhoneNumber(infoForInputs.phone),
-      "Значение в поле 'Номере телефона' не совпадает с введённым"
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -173,11 +172,25 @@ describe("Проверка формы 'Обратный звонок'", async fu
       "Форма Обратный звонок не отобразилась"
     );
 
+    await driver.sleep(500);
+
     // ввод текста во все текстовые поля
     await sendKeysToTheElement(callbackForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(callbackForm.inputPhone, infoForInputs.phone);
 
-    await driver.sleep(1000);
+    // проверка введённого текста в поля "Имя" и "Телефон"
+    expect(
+      await driver.findElement(callbackForm.inputName).getAttribute("value")
+    ).to.be.equal(
+      infoForInputs.name,
+      "Значение в поле 'Имя' не совпадает с введённым"
+    );
+    expect(
+      await driver.findElement(callbackForm.inputPhone).getAttribute("value")
+    ).to.be.equal(
+      getFormattedPhoneNumber(infoForInputs.phone),
+      "Значение в поле 'Номер телефона' не совпадает с введённым"
+    );
 
     // нажатие на кнпоку "Отправить" в форме "Обратный звонок" и ожидание появления сообщения валидации обязательных полей
     await driver.wait(
@@ -192,20 +205,6 @@ describe("Проверка формы 'Обратный звонок'", async fu
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поля "Имя" и "Телефон"
-    expect(
-      await driver.findElement(callbackForm.inputName).getAttribute("value")
-    ).to.be.equal(
-      infoForInputs.name,
-      "Значение в поле 'Имя' не совпадает с введённым"
-    );
-    expect(
-      await driver.findElement(callbackForm.inputPhone).getAttribute("value")
-    ).to.be.equal(
-      getFormattedPhoneNumber(infoForInputs.phone),
-      "Значение в поле 'Номер телефона' не совпадает с введённым"
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку

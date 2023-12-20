@@ -10,7 +10,7 @@ const { directorsPage } = require("../pages/directors-page");
 const { directorsForm } = require("../pages/forms/directors-form");
 const { mainPage } = require("../pages/main-page");
 
-describe.only("Проверка формы 'Письмо директору'", async function () {
+describe("Проверка формы 'Письмо директору'", async function () {
   // из-за некорректной настройки формы, при загрузке страницы, форма сначала удаляет все значения и перезагружается
   // поэтому, первым действием приходится пропускать это процесс
 
