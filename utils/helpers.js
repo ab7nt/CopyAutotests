@@ -4,6 +4,13 @@ const fs = require("fs").promises;
 //   return By.css(`[data-qa=${locator}]`);
 // };
 
+async function scrollToElementUntilIsVisible(locator) {
+  await driver.executeScript(
+    "arguments[0].scrollIntoView()",
+    await driver.findElement(locator)
+  );
+}
+
 async function hideElementIfVisible(locator) {
   await driver.executeScript(
     "arguments[0].style.display = 'none'",

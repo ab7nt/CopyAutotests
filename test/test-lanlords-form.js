@@ -1,5 +1,5 @@
 const { By, until } = require("selenium-webdriver");
-const { expect } = require("chai");
+const { expect, assert } = require("chai");
 const {
   getFormattedPhoneNumber,
   sendKeysToTheElement,
@@ -10,15 +10,15 @@ const { lanlordsPage } = require("../pages/landlords-page");
 const { lanlordsForm } = require("../pages/forms/lanlords-form");
 const { mainPage } = require("../pages/main-page");
 
-describe.only("Проверка формы 'Арендодателям'", async function () {
-  // из-за некорректной настройки формы, при загрузке страницы, форма сначала удаляет все значения и перезагружается
-  // поэтому, первым действием приходится пропускать это процесс
+describe("Проверка формы 'Арендодателям'", async function () {
+  // из-за некорректной настройки формы, при загрузке страницы форма сначала удаляет все значения и перезагружается
+  // поэтому приходится пропускать это процесс
 
   it("50639 Арендодателям - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -70,7 +70,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -136,7 +136,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -206,7 +206,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -272,7 +272,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -348,7 +348,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницыдание полной загрузки страницы
+    // скрытие лишних блоковдание полной загрузки страницы
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -424,7 +424,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -503,7 +503,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))
@@ -582,7 +582,7 @@ describe.only("Проверка формы 'Арендодателям'", async 
     // открытие страницы
     await driver.get(lanlordsPage.pageURL);
 
-    // скрытие лишних блоков, нажатие на кнпоку "Отправить" в форме и ожидание полной загрузки страницы
+    // скрытие лишних блоков
     await driver.executeScript(
       "arguments[0].style.display='none'",
       await driver.findElement(By.css("div.rent-invite"))

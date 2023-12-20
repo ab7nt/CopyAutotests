@@ -3,12 +3,14 @@ const { expect } = require("chai");
 const {
   sendKeysToTheElement,
   getFormattedPhoneNumber,
+  hideElementIfVisible,
 } = require("../utils/helpers");
 const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { directorsPage } = require("../pages/directors-page");
 const { directorsForm } = require("../pages/forms/directors-form");
+const { mainPage } = require("../pages/main-page");
 
-describe("Проверка формы 'Письмо директору'", async function () {
+describe.only("Проверка формы 'Письмо директору'", async function () {
   // из-за некорректной настройки формы, при загрузке страницы, форма сначала удаляет все значения и перезагружается
   // поэтому, первым действием приходится пропускать это процесс
 
@@ -23,12 +25,12 @@ describe("Проверка формы 'Письмо директору'", async 
       "Форма не успела обновиться"
     );
 
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
     await driver.findElement(directorsForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -74,12 +76,17 @@ describe("Проверка формы 'Письмо директору'", async 
       .findElement(directorsForm.inputName)
       .sendKeys(infoForInputs.name);
 
+    // проверка введённого текста в поле "Имя"
+    expect(
+      await driver.findElement(directorsForm.inputName).getAttribute("value")
+    ).to.be.equal(infoForInputs.name);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
     await driver.findElement(directorsForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -88,11 +95,6 @@ describe("Проверка формы 'Письмо директору'", async 
         "Сообщение валидации не отобразилось"
       )
     );
-
-    // проверка введённого текста в поле "Имя"
-    expect(
-      await driver.findElement(directorsForm.inputName).getAttribute("value")
-    ).to.be.equal(infoForInputs.name);
 
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
     expect(
@@ -131,21 +133,6 @@ describe("Проверка формы 'Письмо директору'", async 
       .findElement(directorsForm.inputPhone)
       .sendKeys(infoForInputs.phone);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поле "Номер телефона"
     expect(
       await driver.findElement(directorsForm.inputPhone).getAttribute("value")
@@ -153,6 +140,21 @@ describe("Проверка формы 'Письмо директору'", async 
       getFormattedPhoneNumber(
         infoForInputs.phone,
         "Значение в поле 'Номере телефона' не совпадает с введённым"
+      )
+    );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
       )
     );
 
@@ -196,21 +198,6 @@ describe("Проверка формы 'Письмо директору'", async 
       .findElement(directorsForm.inputEmail)
       .sendKeys(infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поле "Электронная почта"
     expect(
       await driver
@@ -220,6 +207,21 @@ describe("Проверка формы 'Письмо директору'", async 
         )
         .getAttribute("value")
     ).to.be.equal(infoForInputs.email);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
+    );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
     expect(
@@ -260,21 +262,6 @@ describe("Проверка формы 'Письмо директору'", async 
     await sendKeysToTheElement(directorsForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(directorsForm.inputPhone, infoForInputs.phone);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Имя" и "Номер телефона"
     expect(
       await driver.findElement(directorsForm.inputName).getAttribute("value")
@@ -288,6 +275,21 @@ describe("Проверка формы 'Письмо директору'", async 
       getFormattedPhoneNumber(
         infoForInputs.phone,
         "Значение в поле 'Номере телефона' не совпадает с введённым"
+      )
+    );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
       )
     );
 
@@ -330,21 +332,6 @@ describe("Проверка формы 'Письмо директору'", async 
     await sendKeysToTheElement(directorsForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(directorsForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Имя" и "Электронная почта"
     expect(
       await driver.findElement(directorsForm.inputName).getAttribute("value")
@@ -360,6 +347,21 @@ describe("Проверка формы 'Письмо директору'", async 
         )
         .getAttribute("value")
     ).to.be.equal(infoForInputs.email);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
+    );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
     expect(
@@ -400,21 +402,6 @@ describe("Проверка формы 'Письмо директору'", async 
     await sendKeysToTheElement(directorsForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(directorsForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Номер телефона" и "Электронная почта"
     expect(
       await driver.findElement(directorsForm.inputPhone).getAttribute("value")
@@ -432,6 +419,21 @@ describe("Проверка формы 'Письмо директору'", async 
         )
         .getAttribute("value")
     ).to.be.equal(infoForInputs.email);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
+    );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
     expect(
@@ -476,27 +478,6 @@ describe("Проверка формы 'Письмо директору'", async 
     await sendKeysToTheElement(directorsForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(directorsForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
-    console.log(
-      await driver
-        .findElement(directorsPage.directorsForm)
-        .getAttribute("class")
-    );
-
     // проверка введённого текста во все поля
     expect(
       await driver.findElement(directorsForm.inputName).getAttribute("value")
@@ -520,6 +501,21 @@ describe("Проверка формы 'Письмо директору'", async 
         )
         .getAttribute("value")
     ).to.be.equal(infoForInputs.email);
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
+    );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
     expect(
@@ -571,21 +567,6 @@ describe("Проверка формы 'Письмо директору'", async 
       infoForInputs.message
     );
 
-    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(directorsForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(directorsForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(directorsForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста во все поля
     expect(
       await driver.findElement(directorsForm.inputName).getAttribute("value")
@@ -622,6 +603,21 @@ describe("Проверка формы 'Письмо директору'", async 
     ).to.be.equal(
       infoForInputs.message,
       "Значение в поле 'Площадь' не совпадает с введённым"
+    );
+
+    // скрытие виджета, мешающего нажатию на кнопку "Отправить"
+    if (await driver.findElement(mainPage.b24widget)) {
+      await hideElementIfVisible(mainPage.b24widget);
+    }
+
+    // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(directorsForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(directorsForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
