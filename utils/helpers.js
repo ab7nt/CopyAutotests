@@ -1,13 +1,34 @@
-const { Builder, By } = require("selenium-webdriver");
+const { Builder, By, until } = require("selenium-webdriver");
+
 const fs = require("fs").promises;
 // const qaLocator = (locator) => {
 //   return By.css(`[data-qa=${locator}]`);
 // };
 
-async function scrollToElementUntilIsVisible(locator) {
-  await driver.executeScript(
-    "arguments[0].scrollIntoView()",
-    await driver.findElement(locator)
+// async function scrollToElementUntilIsVisible(locator) {
+//   await driver.executeScript(
+//     "arguments[0].scrollIntoView()",
+//     await driver.findElement(locator)
+//   );
+
+//   (await driver.findElement(locator))
+// }
+
+async function openPage(url) {
+  await driver.get(url);
+}
+
+async function clickOnElement(locator) {
+  await driver.findElement(locator).click();
+}
+
+async function waitForElementLocated(locator, message, timeout = 5000) {
+  await driver.wait(until.elementLocated(locator), timeout, message);
+}
+
+async function waitForElementIsVisible(locator, message, timeout = 5000) {
+  await driver.wait(
+    until.elementIsVisible(await driver.findElement(locator), timeout, message)
   );
 }
 
@@ -65,4 +86,8 @@ module.exports = {
   closeSityСonfirmPopup,
   setEnvironmentAndDomen,
   hideElementIfVisible,
+  openPage,
+  clickOnElement,
+  waitForElementLocated,
+  waitForElementIsVisible,
 };

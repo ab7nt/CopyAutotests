@@ -10,7 +10,7 @@ const { vacancyPage } = require("../pages/vacancy-page");
 const { vacancyForm } = require("../pages/forms/vacancy-form");
 const { mainPage } = require("../pages/main-page");
 
-describe.only("Проверка формы 'Отклик на вакансию'", async function () {
+describe("Проверка формы 'Отклик на вакансию'", async function () {
   it("50669 Отклик на вакансию - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
     await driver.get(vacancyPage.pageURL);

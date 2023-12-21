@@ -3,34 +3,47 @@ const { expect } = require("chai");
 const {
   sendKeysToTheElement,
   getFormattedPhoneNumber,
+  openPage,
+  clickOnElement,
+  waitForElementLocated,
+  waitForElementIsVisible,
 } = require("../utils/helpers");
 const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
-describe("Проверка формы 'Обратный звонок'", async function () {
-  it("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
+describe.only("Проверка формы 'Обратный звонок'", async function () {
+  it.only("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
     // открытие страницы
-    await driver.get(notfoundPage.pageURL);
+    await openPage(notfoundPage.pageURL);
 
     // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
-    await driver.findElement(notfoundPage.callbackButton).click();
-    await driver.wait(
-      until.elementLocated(notfoundPage.callbackFormActive),
-      5000,
+    await clickOnElement(notfoundPage.callbackButton);
+    // await driver.wait(
+    //   until.elementLocated(notfoundPage.callbackFormActive),
+    //   5000,
+    //   "Форма Обратный звонок не отобразилась"
+    // );
+    await waitForElementLocated(
+      notfoundPage.callbackFormActive,
       "Форма Обратный звонок не отобразилась"
     );
 
     await driver.sleep(500);
 
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    await driver.findElement(callbackForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(callbackForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
+    // await driver.findElement(callbackForm.submitButton).click();
+    // await driver.wait(
+    //   until.elementIsVisible(
+    //     await driver.findElement(callbackForm.validationMessage),
+    //     5000,
+    //     "Сообщение валидации не отобразилось"
+    //   )
+    // );
+    await clickOnElement(callbackForm.submitButton);
+    await waitForElementIsVisible(
+      callbackForm.validationMessage,
+      "Сообщение валидации не отобразилось"
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
@@ -49,7 +62,7 @@ describe("Проверка формы 'Обратный звонок'", async fu
   });
   it('50595 Обратный звонок - Отправка формы с корректно заполненным полем "Имя"', async function () {
     // открытие страницы
-    await driver.get(notfoundPage.pageURL);
+    await openPage(notfoundPage.pageURL);
 
     // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
     await driver.findElement(notfoundPage.callbackButton).click();
@@ -104,7 +117,7 @@ describe("Проверка формы 'Обратный звонок'", async fu
   });
   it('50596 Обратный звонок - Отправка формы с корректно заполненным полем "Номер телефона"', async function () {
     // открытие страницы
-    await driver.get(notfoundPage.pageURL);
+    await openPage(notfoundPage.pageURL);
 
     // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
     await driver.findElement(notfoundPage.callbackButton).click();
@@ -162,7 +175,7 @@ describe("Проверка формы 'Обратный звонок'", async fu
   });
   it("50597 Обратный звонок - Отправка формы со всеми корректно заполненными необходимыми полями", async function () {
     // открытие страницы
-    await driver.get(notfoundPage.pageURL);
+    await openPage(notfoundPage.pageURL);
 
     // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
     await driver.findElement(notfoundPage.callbackButton).click();
