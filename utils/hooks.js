@@ -18,13 +18,13 @@ exports.mochaHooks = {
     const testTitle = this.currentTest.title;
 
     // при успехе отправка статуса в TestRai, если ID тестрана не равен 0
-    // if (this.currentTest.state == "passed") {
-    //   await sendStatusInTestRail(1, Number(testTitle.split(" ").shift()));
-    // }
+    if (this.currentTest.state == "passed") {
+      await sendStatusInTestRail(1, Number(testTitle.split(" ").shift()));
+    }
 
     // при упавшем тесте отправка статуса в TestRail и снятие скриншота
     if (this.currentTest.state == "failed") {
-      // await sendStatusInTestRail(5, Number(testTitle.split(" ").shift()));
+      await sendStatusInTestRail(5, Number(testTitle.split(" ").shift()));
 
       await driver.takeScreenshot().then(function (image) {
         fs.writeFile(

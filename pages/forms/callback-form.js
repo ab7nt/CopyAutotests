@@ -15,6 +15,10 @@ const callbackForm = {
     "div.popup--callback form input[name=first-name]"
   ),
   inputPhone: returnByCssLocator("div.popup--callback form input[name=phone]"),
+  closeButton: returnByCssLocator(
+    "div.popup--callback form div.popup__close.popup-close"
+  ),
+  backButton: returnByCssLocator("div.popup--callback button.popup-close"),
 };
 
 module.exports = { callbackForm };

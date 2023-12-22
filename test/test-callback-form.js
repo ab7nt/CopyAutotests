@@ -1,4 +1,4 @@
-const { By, until } = require("selenium-webdriver");
+const { By, until, Key } = require("selenium-webdriver");
 const { expect } = require("chai");
 const {
   sendKeysToTheElement,
@@ -13,33 +13,87 @@ const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
 describe.only("Проверка формы 'Обратный звонок'", async function () {
-  it.only("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
+  it.only("Обратный звонок - Проверка скрытия поп-апа", async function () {
     // открытие страницы
     await openPage(notfoundPage.pageURL);
 
     // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
     await clickOnElement(notfoundPage.callbackButton);
-    // await driver.wait(
-    //   until.elementLocated(notfoundPage.callbackFormActive),
-    //   5000,
-    //   "Форма Обратный звонок не отобразилась"
-    // );
     await waitForElementLocated(
       notfoundPage.callbackFormActive,
       "Форма Обратный звонок не отобразилась"
     );
+    await driver.sleep(500);
 
+    // нажатие на кнопку в виде крестика в форме и ожидание скрытия попапа
+    await clickOnElement(callbackForm.closeButton);
+    await waitForElementLocated(
+      notfoundPage.callbackPopupNotActive,
+      "Форма Обратный звонок не скрылась после нажатия на крестик"
+    );
+
+    // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
+    await clickOnElement(notfoundPage.callbackButton);
+    await waitForElementLocated(
+      notfoundPage.callbackFormActive,
+      "Форма Обратный звонок не отобразилась"
+    );
+    await driver.sleep(500);
+
+    // нажатие на кнопку в виде крестика в форме и ожидание скрытия попапа
+    await clickOnElement(callbackForm.backButton);
+    await waitForElementLocated(
+      notfoundPage.callbackPopupNotActive,
+      "Форма Обратный звонок не скрылась после нажатия на кнопку Назад"
+    );
+
+    // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
+    await clickOnElement(notfoundPage.callbackButton);
+    await waitForElementLocated(
+      notfoundPage.callbackFormActive,
+      "Форма Обратный звонок не отобразилась"
+    );
+    await driver.sleep(500);
+
+    // нажатие на клавишу ESCAPE и ожидание скрытия попапа
+    await driver.actions().keyDown(Key.ESCAPE).perform();
+    await waitForElementLocated(
+      notfoundPage.callbackPopupNotActive,
+      "Форма Обратный звонок не скрылась после нажатия на клавишу ESC"
+    );
+
+    // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
+    await clickOnElement(notfoundPage.callbackButton);
+    await waitForElementLocated(
+      notfoundPage.callbackFormActive,
+      "Форма Обратный звонок не отобразилась"
+    );
+    await driver.sleep(500);
+
+    // нажатие на элемент вне пределов попапа и ожидание скрытия попапа
+    await driver.executeScript(
+      "arguments[0].style.display ='none'",
+      await driver.findElement(notfoundPage.callbackFormActive)
+    );
+    await clickOnElement(notfoundPage.outsideElement);
+    await waitForElementLocated(
+      notfoundPage.callbackPopupNotActive,
+      "Форма Обратный звонок не скрылась после нажатия на элемент вне пределов попапа"
+    );
+  });
+  it("50594 Обратный звонок - Отправка формы с незаполненными полями", async function () {
+    // открытие страницы
+    await openPage(notfoundPage.pageURL);
+
+    // нажатие на кнопку "Заказать обратный звонок" и ожидание отображения формы "Обратный звонок"
+    await clickOnElement(notfoundPage.callbackButton);
+    await waitForElementLocated(
+      notfoundPage.callbackFormActive,
+      "Форма Обратный звонок не отобразилась"
+    );
     await driver.sleep(500);
 
     // нажатие на кнпоку "Отправить" в форме и ожидание появления сообщения валидации обязательных полей
-    // await driver.findElement(callbackForm.submitButton).click();
-    // await driver.wait(
-    //   until.elementIsVisible(
-    //     await driver.findElement(callbackForm.validationMessage),
-    //     5000,
-    //     "Сообщение валидации не отобразилось"
-    //   )
-    // );
     await clickOnElement(callbackForm.submitButton);
     await waitForElementIsVisible(
       callbackForm.validationMessage,
