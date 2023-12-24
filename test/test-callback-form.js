@@ -12,8 +12,8 @@ const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
-describe.only("Проверка формы 'Обратный звонок'", async function () {
-  it.only("Обратный звонок - Проверка скрытия поп-апа", async function () {
+describe("Проверка формы 'Обратный звонок'", async function () {
+  it("51708 Обратный звонок - Проверка скрытия поп-апа", async function () {
     // открытие страницы
     await openPage(notfoundPage.pageURL);
 

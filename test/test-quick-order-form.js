@@ -22,18 +22,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     );
 
     // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(quickOrderForm.submitButton)
-      ),
-      5000,
-      "Кнопка 'Отправить' не отобразилась"
-    );
     await driver.findElement(quickOrderForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -78,12 +66,15 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // ввод текста в поле "Имя"
     await sendKeysToTheElement(quickOrderForm.inputName, infoForInputs.name);
 
-    // нажатие на кнпоку "Отправить" в формае "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
+    // проверка введённого текста в поле "Имя"
+    expect(
+      await driver.findElement(quickOrderForm.inputName).getAttribute("value")
+    ).to.be.equal(
+      infoForInputs.name,
+      "Значение в поле 'Имя' не совпадает с введённым"
     );
+
+    // нажатие на кнпоку "Отправить" в формае "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(quickOrderForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -91,14 +82,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Имя"
-    expect(
-      await driver.findElement(quickOrderForm.inputName).getAttribute("value")
-    ).to.be.equal(
-      infoForInputs.name,
-      "Значение в поле 'Имя' не совпадает с введённым"
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
@@ -137,12 +120,15 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // ввод текста в поле "Номер телефона"
     await sendKeysToTheElement(quickOrderForm.inputPhone, infoForInputs.phone);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
+    // проверка введённого текста в поле "Номер телефона"
+    expect(
+      await driver.findElement(quickOrderForm.inputPhone).getAttribute("value")
+    ).to.be.equal(
+      getFormattedPhoneNumber(infoForInputs.phone),
+      "Значение в поле 'Номер телефона' не совпадает с введённым"
     );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(quickOrderForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -150,14 +136,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Номер телефона"
-    expect(
-      await driver.findElement(quickOrderForm.inputPhone).getAttribute("value")
-    ).to.be.equal(
-      getFormattedPhoneNumber(infoForInputs.phone),
-      "Значение в поле 'Номер телефона' не совпадает с введённым"
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -199,12 +177,15 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     // ввод текста в поле "Электронная почта"
     await sendKeysToTheElement(quickOrderForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
+    // проверка введённого текста в поле "Электронная почта"
+    expect(
+      await driver.findElement(quickOrderForm.inputEmail).getAttribute("value")
+    ).to.be.equal(
+      infoForInputs.email,
+      "Значение в поле 'Электронная почта' не совпадает с введённым"
     );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
     await driver.findElement(quickOrderForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
@@ -212,14 +193,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
         5000,
         "Сообщение валидации не отобразилось"
       )
-    );
-
-    // проверка введённого текста в поле "Электронная почта"
-    expect(
-      await driver.findElement(quickOrderForm.inputEmail).getAttribute("value")
-    ).to.be.equal(
-      infoForInputs.email,
-      "Значение в поле 'Электронная почта' не совпадает с введённым"
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -262,21 +235,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     await sendKeysToTheElement(quickOrderForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(quickOrderForm.inputPhone, infoForInputs.phone);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(quickOrderForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(quickOrderForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Номер телефона" и "Электронная почта"
     expect(
       await driver.findElement(quickOrderForm.inputName).getAttribute("value")
@@ -289,6 +247,16 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     ).to.be.equal(
       getFormattedPhoneNumber(infoForInputs.phone),
       "Значение в поле 'Номер телефона' не совпадает с введённым"
+    );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(quickOrderForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(quickOrderForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -331,21 +299,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     await sendKeysToTheElement(quickOrderForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(quickOrderForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(quickOrderForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(quickOrderForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Имя" и "Электронная почта"
     expect(
       await driver.findElement(quickOrderForm.inputName).getAttribute("value")
@@ -358,6 +311,16 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     ).to.be.equal(
       infoForInputs.email,
       "Значение в поле 'Электронная почта' не совпадает с введённым"
+    );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(quickOrderForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(quickOrderForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -400,21 +363,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     await sendKeysToTheElement(quickOrderForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(quickOrderForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(quickOrderForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(quickOrderForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Телефон" и "Электронная почта"
     expect(
       await driver.findElement(quickOrderForm.inputPhone).getAttribute("value")
@@ -427,6 +375,16 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     ).to.be.equal(
       infoForInputs.email,
       "Значение в поле 'Электронная почта' не совпадает с введённым"
+    );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(quickOrderForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(quickOrderForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у незаполненных обязательных полей наличия класса, отвечающего за красную обводку
@@ -473,21 +431,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     await sendKeysToTheElement(quickOrderForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(quickOrderForm.inputEmail, infoForInputs.email);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(quickOrderForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(quickOrderForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Имя", "Телефон" и "Электронная почта"
     expect(
       await driver.findElement(quickOrderForm.inputName).getAttribute("value")
@@ -506,6 +449,16 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     ).to.be.equal(
       infoForInputs.email,
       "Значение в поле 'Электронная почта' не совпадает с введённым"
+    );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(quickOrderForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(quickOrderForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
@@ -570,21 +523,6 @@ describe("Проверка формы 'Быстрый заказ'", async functi
       .findElement(quickOrderForm.inputFile)
       .sendKeys(infoForInputs.filePath);
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
-    await driver.wait(
-      until.elementLocated(quickOrderForm.submitButton),
-      5000,
-      "Кнопка 'Отправить' не найдена'"
-    );
-    await driver.findElement(quickOrderForm.submitButton).click();
-    await driver.wait(
-      until.elementIsVisible(
-        await driver.findElement(quickOrderForm.validationMessage),
-        5000,
-        "Сообщение валидации не отобразилось"
-      )
-    );
-
     // проверка введённого текста в поля "Имя", "Телефон" и "Электронная почта"
     expect(
       await driver.findElement(quickOrderForm.inputName).getAttribute("value")
@@ -603,6 +541,16 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     ).to.be.equal(
       infoForInputs.email,
       "Значение в поле 'Электронная почта' не совпадает с введённым"
+    );
+
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    await driver.findElement(quickOrderForm.submitButton).click();
+    await driver.wait(
+      until.elementIsVisible(
+        await driver.findElement(quickOrderForm.validationMessage),
+        5000,
+        "Сообщение валидации не отобразилось"
+      )
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
