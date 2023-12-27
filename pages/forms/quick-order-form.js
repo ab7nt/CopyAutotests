@@ -34,6 +34,9 @@ const quickOrderForm = {
     "div.popup--fast-order form label[for=copycenter3415]"
   ),
   inputFile: returnByCssLocator("div.popup--fast-order form input[type=file]"),
+  inputMessage: returnByCssLocator(
+    "div.popup--fast-order form textarea[name='technical-task']"
+  ),
 };
 
 module.exports = { quickOrderForm };

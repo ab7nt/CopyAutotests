@@ -487,7 +487,7 @@ describe("Проверка формы 'Быстрый заказ'", async functi
       'У поля "Электронная почта"" есть красная обводка'
     );
   });
-  it("50638 Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
+  it.only("50638 Быстрый заказ - Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
     // открытие страницы
     await driver.get(mainPage.pageURL);
 
@@ -503,6 +503,10 @@ describe("Проверка формы 'Быстрый заказ'", async functi
     await sendKeysToTheElement(quickOrderForm.inputName, infoForInputs.name);
     await sendKeysToTheElement(quickOrderForm.inputPhone, infoForInputs.phone);
     await sendKeysToTheElement(quickOrderForm.inputEmail, infoForInputs.email);
+    await sendKeysToTheElement(
+      quickOrderForm.inputMessage,
+      infoForInputs.message
+    );
 
     // выбор случайного элемента в блоке "Способ связи" и нажатие на него
     const elementsFromSocials = await driver.findElements(
