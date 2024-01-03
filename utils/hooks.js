@@ -1,8 +1,7 @@
 const { Builder } = require("selenium-webdriver");
 const { takeScreenshot } = require("./helpers");
 const fs = require("fs");
-const sendStatusInTestRail = require("d:/Autotests/Sites/test-rail/sendStatus");
-const { log } = require("console");
+const sendStatusInTestRail = require("../test-rail/sendStatus");
 
 exports.mochaHooks = {
   beforeEach: async function () {
