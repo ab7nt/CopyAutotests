@@ -7,12 +7,21 @@ const {
   clickOnElement,
   waitForElementLocated,
   waitForElementIsVisible,
+  findElement,
+  getElementAttribute,
 } = require("../utils/helpers");
 const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
 describe("Проверка формы 'Обратный звонок'", async function () {
+  // it.only("", async function () {
+  //   // открытие страницы
+  //   await openPage(notfoundPage.pageURL);
+
+  //   await findElement(notfoundPage.callbackButton).click();
+  //   await driver.sleep(2000);
+  // });
   it("51708 Обратный звонок - Проверка скрытия поп-апа", async function () {
     // открытие страницы
     await openPage(notfoundPage.pageURL);
@@ -101,8 +110,11 @@ describe("Проверка формы 'Обратный звонок'", async fu
     );
 
     // проверка у сообщения валидации наличия класса, отвечающего за жёлтую обводку
+    // expect(
+    //   await driver.findElement(notfoundPage.callbackForm).getAttribute("class")
+    // ).to.include("invalid", "Обводка у сообщения не жёлтая");
     expect(
-      await driver.findElement(notfoundPage.callbackForm).getAttribute("class")
+      await getElementAttribute(notfoundPage.callbackForm, "class")
     ).to.include("invalid", "Обводка у сообщения не жёлтая");
 
     // проверка у обязательных полей наличия класса, отвечающего за красную обводку

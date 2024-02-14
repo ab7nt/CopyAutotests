@@ -14,6 +14,14 @@ const fs = require("fs").promises;
 //   (await driver.findElement(locator))
 // }
 
+async function getElementAttribute(locator, attribute) {
+  return findElement(locator).getAttribute(attribute);
+}
+
+function findElement(locator) {
+  return driver.findElement(locator);
+}
+
 async function openPage(url) {
   await driver.get(url);
 }
@@ -90,4 +98,6 @@ module.exports = {
   clickOnElement,
   waitForElementLocated,
   waitForElementIsVisible,
+  findElement,
+  getElementAttribute,
 };

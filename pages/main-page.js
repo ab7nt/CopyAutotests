@@ -33,6 +33,7 @@ const mainPage = {
     "a.font-control.footer-middle__contacts[href='https://dev.copy.ru/contacts/']"
   ),
   b24widget: returnByCssLocator("div[data-b24-crm-button-cont]"),
+  headerBottomLinks: returnByCssLocator("div.header-bottom a"),
 };
 
 module.exports = {
