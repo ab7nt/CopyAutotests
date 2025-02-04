@@ -7,6 +7,7 @@ const {
 } = require("../utils/helpers");
 const { quickOrderForm } = require("../pages/forms/quick-order-form");
 const { mainPage } = require("../pages/main-page");
+const { successfulSendPopup } = require("../pages/forms/successful-send-popup");
 
 describe("Проверка формы 'Быстрый заказ'", async function () {
   it("50630 Быстрый заказ - Отправка формы с незаполненными полями", async function () {
@@ -451,41 +452,25 @@ describe("Проверка формы 'Быстрый заказ'", async functi
       "Значение в поле 'Электронная почта' не совпадает с введённым"
     );
 
-    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления сообщения валидации обязательных полей
+    // нажатие на кнпоку "Отправить" в форме "Быстрый заказ" и ожидание появления поп-апа успешной отправки
     await driver.findElement(quickOrderForm.submitButton).click();
     await driver.wait(
       until.elementIsVisible(
-        await driver.findElement(quickOrderForm.validationMessage),
+        await driver.findElement(mainPage.successfulSendPopup),
         5000,
-        "Сообщение валидации не отобразилось"
+        "Поп-ап успешной отправки не отобразился"
       )
     );
 
-    // проверка у сообщения валидации наличия класса, отвечающего за зелёную обводку
+    // проверка заголовка в поп-апе успешной отправки
     expect(
-      await driver
-        .findElement(quickOrderForm.quickOrderForm)
-        .getAttribute("class")
-    ).to.include("sent", "Обводка у сообщения не зелёная");
+      await driver.findElement(successfulSendPopup.title).getText()
+    ).to.equal("Заявка принята", "Текст в заголовке поп-апа некорректный");
 
-    // проверка отсутствия у корректно заполненных полей класса, отвечающего за красную обводку
-    expect(
-      await driver.findElement(quickOrderForm.inputName).getAttribute("class")
-    ).to.not.include("not-valid", 'У поля "Имя" есть красная обводка');
+    // нажатие на кнопку "Понятно" в поп-апе успешной отправки
+    await driver.findElement(successfulSendPopup.submitButton).click();
 
-    expect(
-      await driver.findElement(quickOrderForm.inputPhone).getAttribute("class")
-    ).to.not.include(
-      "not-valid",
-      'У поля "Номер телефона" есть красная обводка'
-    );
-
-    expect(
-      await driver.findElement(quickOrderForm.inputEmail).getAttribute("class")
-    ).to.not.include(
-      "not-valid",
-      'У поля "Электронная почта"" есть красная обводка'
-    );
+    await driver.sleep(3000);
   });
   it("50638 Быстрый заказ - Отправка формы со всеми корректно заполненными полями (включая необязательные)", async function () {
     // открытие страницы

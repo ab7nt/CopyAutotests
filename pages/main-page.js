@@ -34,6 +34,9 @@ const mainPage = {
   ),
   b24widget: returnByCssLocator("div[data-b24-crm-button-cont]"),
   headerBottomLinks: returnByCssLocator("div.header-bottom a"),
+  successfulSendPopup: returnByCssLocator(
+    "div.popup--active div.popup-send-block"
+  ),
 };
 
 module.exports = {

@@ -2,7 +2,7 @@ const { By } = require("selenium-webdriver");
 const { mainPage } = require("../pages/main-page");
 const { bottomLinksTexts } = require("../pages/info/info-for-header");
 
-describe.only("Проверка ссылок на произвольные страницы из нижней части хедера", async function () {
+describe("Проверка ссылок на произвольные страницы из нижней части хедера", async function () {
   it("Проверка ссылки на страницу Портфолио", async function () {
     await driver.get(mainPage.pageURL);
 

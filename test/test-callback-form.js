@@ -14,7 +14,7 @@ const { infoForInputs } = require("../pages/info/info-for-inputs");
 const { notfoundPage } = require("../pages/notfound-page");
 const { callbackForm } = require("../pages/forms/callback-form");
 
-describe("Проверка формы 'Обратный звонок'", async function () {
+describe.only("Проверка формы 'Обратный звонок'", async function () {
   // it.only("", async function () {
   //   // открытие страницы
   //   await openPage(notfoundPage.pageURL);
